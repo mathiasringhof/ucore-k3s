@@ -21,4 +21,6 @@ dnf5 install -y tmux
 
 #### Example for enabling a System Unit File
 
-systemctl enable podman.socket
+systemctl disable firewalld
+
+curl -sfL https://get.k3s.io
