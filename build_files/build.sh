@@ -1,27 +1,17 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 set -ouex pipefail
 
-### Install packages
+# Example package
+dnf5 install -y tmux
 
-# Packages can be installed from any enabled yum repo on the image.
-# RPMfusion repos are available by default in ublue main images
-# List of rpmfusion packages can be found here:
-# https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
+# firewalld is masked in base images; disabling is harmless but not required
+systemctl disable firewalld || true
 
-# this installs a package from fedora repos
-dnf5 install -y tmux 
+# make sure the symlink target exists
+mkdir -p /var/usrlocal/bin
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
-
-#### Example for enabling a System Unit File
-
-systemctl disable firewalld
-
-mkdir /usr/local/bin
-curl -sfL https://get.k3s.io | sh -
+# install k3s without starting or enabling the service
+curl -sfL https://get.k3s.io | \
+  INSTALL_K3S_SKIP_ENABLE=true \
+  INSTALL_K3S_BIN_DIR=/var/usrlocal/bin \
+  sh -
