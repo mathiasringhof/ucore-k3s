@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -ouex pipefail
 
-# Example package
-dnf5 install -y tmux
-
 # Install container-selinux for proper SELinux contexts
 dnf5 install -y container-selinux
 
@@ -31,17 +28,18 @@ if [ -f "${TMPDIR}/k3s.service" ]; then
 fi
 
 # Create tmpfiles.d configuration for k3s symlinks and binary
-mkdir -p /usr/lib/tmpfiles.d
-cat > /usr/lib/tmpfiles.d/k3s.conf <<EOF
-# k3s binary and symlinks
-f /var/usrlocal/bin/k3s 0755 root root - -
-L /var/usrlocal/bin/kubectl - - - - k3s
-L /var/usrlocal/bin/crictl - - - - k3s
-Z /var/usrlocal/bin/k3s - - - - container_runtime_exec_t
-EOF
+#mkdir -p /usr/lib/tmpfiles.d
+#cat > /usr/lib/tmpfiles.d/k3s.conf <<EOF
+## k3s binary and symlinks
+#f /var/usrlocal/bin/k3s 0755 root root - -
+#L /var/usrlocal/bin/kubectl - - - - k3s
+#L /var/usrlocal/bin/crictl - - - - k3s
+#Z /var/usrlocal/bin/k3s - - - - container_runtime_exec_t
+#EOF
 
 # Clean up the k3s service environment file if it was created
-rm -f /etc/systemd/system/k3s.service.env
+ls -al /usr/etc
+rm -rf /usr/etc
 
 # Clean up temporary directory
 rm -rf "${TMPDIR}"
