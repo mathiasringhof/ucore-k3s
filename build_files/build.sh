@@ -23,5 +23,5 @@ dnf5 install -y tmux
 
 systemctl disable firewalld
 
-mkdir -p /usr/local/bin
+mkdir /usr/local/bin
 curl -sfL https://get.k3s.io | sh -
