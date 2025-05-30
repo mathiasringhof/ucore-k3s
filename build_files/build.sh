@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -ouex pipefail
 
-# Install container-selinux for proper SELinux contexts
-dnf5 install -y https://rpm.rancher.io/k3s/stable/common/coreos/noarch/
-
 # firewalld is masked in base images; disabling is harmless but not required
 systemctl disable firewalld || true
 
