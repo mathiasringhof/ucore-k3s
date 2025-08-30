@@ -85,6 +85,14 @@ if [ "${HASH_DOWNLOADED}" != "${HASH_EXPECTED}" ]; then
 fi
 info "SHA256 verified"
 
+### DEBUG
+ls -ld /opt
+file /opt
+stat -c '%F %a %U:%G %n' /opt
+readlink -f /opt || true
+ls -ld /var
+###
+
 # 4) Create target directory and install binary
 info "Installing k3s to ${BIN_DIR}/k3s"
 mkdir -p "${BIN_DIR}"
