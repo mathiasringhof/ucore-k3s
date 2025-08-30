@@ -8,7 +8,7 @@ K3S_VERSION="${K3S_VERSION:-}" # must be provided in the build environment
 BIN_DIR="/opt/k3s"
 mkdir /var/opt # create target directory for buildin symlink for /opt
 SYMLINK_DIR="/usr/local/bin"
-mkdir /var/usrlocal
+mkdir -p /var/usrlocal/bin
 TMPDIR="$(mktemp -d -t k3s-install.XXXXXXXX)"
 trap 'rm -rf "${TMPDIR}"' EXIT
 
