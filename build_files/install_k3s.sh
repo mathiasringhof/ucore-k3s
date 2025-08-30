@@ -146,6 +146,15 @@ if command -v chcon >/dev/null 2>&1; then
   fi
 fi
 
+### debugging
+chcon -u system_u -r object_r -t container_runtime_exec_t /opt/k3s/k3s 2>&1 || true
+getfattr -n security.selinux /opt/k3s/k3s 2>&1 || true
+mount | grep "on /var "
+getenforce || echo "getenforce not available"
+# requires libcap package
+capsh --print
+### end
+
 if [ -f /usr/share/selinux/packages/k3s.pp ]; then
   info "k3s-selinux policy appears present (/usr/share/selinux/packages/k3s.pp)"
 else
