@@ -1,4 +1,4 @@
 #!/bin/bash
 
 set -ouex pipefail
-curl -sfL https://get.k3s.io | sh -
+./install_k3s.sh
