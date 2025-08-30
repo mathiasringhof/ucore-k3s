@@ -6,7 +6,10 @@ K3S_VERSION="v1.32.8+k3s1" # for debugging
 # Define the version you want to install here (example: v1.30.4+k3s1)
 K3S_VERSION="${K3S_VERSION:-}" # must be provided in the build environment
 BIN_DIR="/opt/k3s"
+mkdir /var/opt # create target directory for buildin symlink for /opt
 SYMLINK_DIR="/usr/local/bin"
+ls -ld /usr
+ls -ld /usr/local
 TMPDIR="$(mktemp -d -t k3s-install.XXXXXXXX)"
 trap 'rm -rf "${TMPDIR}"' EXIT
 
@@ -84,14 +87,6 @@ if [ "${HASH_DOWNLOADED}" != "${HASH_EXPECTED}" ]; then
   fatal "SHA256 mismatch: expected ${HASH_EXPECTED}, got ${HASH_DOWNLOADED}"
 fi
 info "SHA256 verified"
-
-### DEBUG
-ls -ld /opt
-file /opt
-stat -c '%F %a %U:%G %n' /opt
-readlink -f /opt || true
-ls -ld /var
-###
 
 # 4) Create target directory and install binary
 info "Installing k3s to ${BIN_DIR}/k3s"
