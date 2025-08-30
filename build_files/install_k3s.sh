@@ -1,5 +1,6 @@
 #!/bin/sh
 set -euo pipefail
+K3S_VERSION="v1.32.8+k3s1" # for debugging
 
 # Minimal k3s installer for Fedora CoreOS image build (bootc container image).
 # Define the version you want to install here (example: v1.30.4+k3s1)
