@@ -146,13 +146,7 @@ if command -v chcon >/dev/null 2>&1; then
   fi
 fi
 
-### debugging
-semanage fcontext -a -t container_runtime_exec_t '/opt/k3s/k3s'
-restorecon -v /opt/k3s/k3s
-getenforce || echo "getenforce not available"
-# requires libcap package
-capsh --print
-### end
+. /ctx/selinux_debug.sh
 
 if [ -f /usr/share/selinux/packages/k3s.pp ]; then
   info "k3s-selinux policy appears present (/usr/share/selinux/packages/k3s.pp)"
