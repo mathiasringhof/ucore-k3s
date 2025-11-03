@@ -2,5 +2,5 @@
 
 set -ouex pipefail
 
-mkdir /opt/bin
+mkdir -p /opt/bin
 curl -sfL https://get.k3s.io | sh -
