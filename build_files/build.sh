@@ -2,5 +2,7 @@
 
 set -ouex pipefail
 
-mkdir /var/opt/bin
+ls -ld /opt
+ls -ld /var
+ls -ld /var/opt
 curl -sfL https://get.k3s.io | sh -
