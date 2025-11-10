@@ -10,4 +10,4 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_SELINUX_WARN=true INSTALL_K3S_SKIP_EN
 systemctl disable firewalld
 
 # Kitty is a very common terminal emulator, k9s really nice for adhoc cluster management
-dnf install kitty-terminfo k9s
+dnf install -y kitty-terminfo k9s
