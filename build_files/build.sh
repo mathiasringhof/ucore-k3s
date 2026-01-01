@@ -9,5 +9,8 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_SELINUX_WARN=true INSTALL_K3S_SKIP_EN
 # Recommended by https://docs.k3s.io/installation/requirements?os=rhel
 systemctl disable firewalld
 
+# Disable swap for Kubernetes
+systemctl mask dev-zram0.swap
+
 # Kitty is a very common terminal emulator, k9s really nice for adhoc cluster management
 dnf install -y kitty-terminfo k9s
