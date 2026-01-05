@@ -14,3 +14,11 @@ systemctl mask dev-zram0.swap
 
 # Kitty is a very common terminal emulator, k9s really nice for adhoc cluster management
 dnf install -y kitty-terminfo k9s
+
+# Optimize inotify limits for Kubernetes
+# We write to /usr/lib/sysctl.d/ because we are defining the "vendor/image default".
+# /etc/sysctl.d/ should be reserved for local administrator overrides on the running node.
+cat <<EOF >/usr/lib/sysctl.d/99-kubernetes-inotify.conf
+fs.inotify.max_user_instances=1024
+fs.inotify.max_user_watches=524288
+EOF
