@@ -77,7 +77,7 @@ sudoif command *args:
 # The script constructs the version string using the tag and the current date.
 # If the git working directory is clean, it also includes the short SHA of the current HEAD.
 #
-# just build $target_image $tag
+# just build $target_image $tag $ucore_stream $k3s_channel
 #
 # Example usage:
 #   just build aurora lts
@@ -86,12 +86,18 @@ sudoif command *args:
 #
 
 # Build the image using the specified parameters
-build $target_image=image_name $tag=default_tag:
+build $target_image=image_name $tag=default_tag $ucore_stream="" $k3s_channel="":
     #!/usr/bin/env bash
 
     BUILD_ARGS=()
     if [[ -z "$(git status -s)" ]]; then
         BUILD_ARGS+=("--build-arg" "SHA_HEAD_SHORT=$(git rev-parse --short HEAD)")
+    fi
+    if [[ -n "${ucore_stream}" ]]; then
+        BUILD_ARGS+=("--build-arg" "UCORE_STREAM=${ucore_stream}")
+    fi
+    if [[ -n "${k3s_channel}" ]]; then
+        BUILD_ARGS+=("--build-arg" "K3S_CHANNEL=${k3s_channel}")
     fi
 
     podman build \
@@ -99,6 +105,14 @@ build $target_image=image_name $tag=default_tag:
         --pull=newer \
         --tag "${target_image}:${tag}" \
         .
+
+# Build a specific uCore + k3s variant
+build-variant $ucore_stream $k3s_channel $target_image=image_name:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    tag="${ucore_stream}-${k3s_channel}"
+    just build "${target_image}" "${tag}" "${ucore_stream}" "${k3s_channel}"
 
 # Command: _rootful_load_image
 # Description: This script checks if the current user is root or running under sudo. If not, it attempts to resolve the image tag using podman inspect.

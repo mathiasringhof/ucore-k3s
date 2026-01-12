@@ -2,9 +2,15 @@
 
 set -ouex pipefail
 
+K3S_CHANNEL="${K3S_CHANNEL:-stable}"
+if [[ "${K3S_CHANNEL}" =~ ^[0-9]+\.[0-9]+ ]]; then
+    K3S_CHANNEL="v${K3S_CHANNEL}"
+fi
+
 # Install k3s into /usr/bin - don't start, don't enable the service, warn but not build fail when SELinux step fails
 # correct context will be applied at boot
-curl -sfL https://get.k3s.io | INSTALL_K3S_SELINUX_WARN=true INSTALL_K3S_SKIP_ENABLE=true INSTALL_K3S_SKIP_START=true INSTALL_K3S_BIN_DIR=/usr/bin sh -
+curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL="${K3S_CHANNEL}" INSTALL_K3S_SELINUX_WARN=true INSTALL_K3S_SKIP_ENABLE=true INSTALL_K3S_SKIP_START=true INSTALL_K3S_BIN_DIR=/usr/bin sh -
+command -v k3s >/dev/null
 
 # Recommended by https://docs.k3s.io/installation/requirements?os=rhel
 systemctl disable firewalld

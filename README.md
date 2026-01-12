@@ -1,6 +1,6 @@
 # ucore-k3s
 
-Adds k3s on top of the uCore:hci image. It also:
+Adds k3s on top of the uCore image (stable/testing streams). It also:
 
 - disables swap
 - disables firewalld
@@ -17,3 +17,12 @@ It builds on uCore and follows its documentation; see the uCore repository and R
 See `TODO.md` for details. Current focus:
 
 - ensure the base uCore/CoreOS version is visible in `rpm-ostree status`
+
+## Image Tags
+
+Published tags mirror the uCore stream and the desired k3s release channel:
+
+- `stable-1.33`
+- `stable-1.34`
+- `testing-1.33`
+- `testing-1.34`

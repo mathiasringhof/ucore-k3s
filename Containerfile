@@ -1,9 +1,11 @@
 # Allow build scripts to be referenced without being copied into the final image
+ARG UCORE_STREAM=stable
 FROM scratch AS ctx
 COPY build_files /
 
 # Base Image
-FROM ghcr.io/ublue-os/ucore:stable
+FROM ghcr.io/ublue-os/ucore:${UCORE_STREAM}
+ARG K3S_CHANNEL=1.34
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
@@ -33,7 +35,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    /ctx/build.sh
+    K3S_CHANNEL="${K3S_CHANNEL}" /ctx/build.sh
     
 ### LINTING
 ## Verify final image and contents are correct.
